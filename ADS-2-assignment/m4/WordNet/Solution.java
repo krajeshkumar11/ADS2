@@ -13,14 +13,22 @@ public class Solution {
             switch(option) {
                 case "Graph":
                     wn = new WordNet(hypernym, synset);
-                    System.out.println(wn);
+                    // if(wn.multiple_roots) {
+                    //     System.out.println("Multiple roots");
+                    // } else {
+                        System.out.println(wn);
+                    // }
                 break;
                 case "Queries":
                     wn = new WordNet(hypernym, synset);
                     while(sc.hasNext()) {
                         String[] qu = sc.nextLine().split(" ");
-                        System.out.print("distance = " + wn.distance(qu[0], qu[1]));
-                        System.out.println(", ancestor = " + wn.sap(qu[0], qu[1]));
+                        if(qu[0].equals("null") || qu[1].equals("null")) {
+                            System.out.println("IllegalArgumentException");
+                        } else {
+                            System.out.print("distance = " + wn.distance(qu[0], qu[1]));
+                            System.out.println(", ancestor = " + wn.sap(qu[0], qu[1]));
+                        }
                     }
                 break;
             }

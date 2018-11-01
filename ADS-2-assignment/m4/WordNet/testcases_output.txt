@@ -216,20 +216,20 @@ Your Output:
 5:
 ----------------------------------------
 
-########## Testcase 11: Failed ##########
+########## Testcase 11: Passed ##########
 Expected Output: 
 IllegalArgumentException
 
 Your Output: 
-distance = -1, ancestor =
+IllegalArgumentException
 ----------------------------------------
 
-########## Testcase 12: Failed ##########
+########## Testcase 12: Passed ##########
 Expected Output: 
 IllegalArgumentException
 
 Your Output: 
-distance = -1, ancestor =
+IllegalArgumentException
 ----------------------------------------
 
 ########## Testcase 13: Failed ##########

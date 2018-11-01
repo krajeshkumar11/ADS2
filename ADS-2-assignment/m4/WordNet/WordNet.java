@@ -3,6 +3,7 @@ import java.io.File;
 import java.util.*;
 public class WordNet {
    HashMap<String, Integer> hm = null;
+   HashMap<Integer, String> synsetshm = null;
    public DirectedCycle dc = null;
    public CC cc = null;
    Digraph graph = null;
@@ -11,6 +12,7 @@ public class WordNet {
    // constructor takes the name of the two input files
    public WordNet(String hypernyms, String synsets) {
       hm = new HashMap<String, Integer>();
+      synsetshm = new HashMap<Integer, String>();
       try {
          File file = new File(synsets);
          Scanner sc = new Scanner(file);
@@ -19,7 +21,8 @@ public class WordNet {
             String[] stlist= sc.nextLine().split(",");
             String[] nouns_list = stlist[1].split(" ");
             count += nouns_list.length;
-            ArrayList<String> al = new ArrayList<String>();
+            // hm.put(stlist[1], Integer.parseInt(stlist[0]));
+            synsetshm.put(Integer.parseInt(stlist[0]), stlist[1]);
             for(int i = 0; i < nouns_list.length; i++) {
                hm.put(nouns_list[i], Integer.parseInt(stlist[0]));
             }
@@ -73,19 +76,21 @@ public class WordNet {
    // a synset (second field of synsets.txt) that is the common ancestor of nounA and nounB
    // in a shortest ancestral path (defined below)
    public String sap(String nounA, String nounB){
-      ArrayList<String> ans = new ArrayList<String>();
+      // ArrayList<String> ans = new ArrayList<String>();
       if(isNoun(nounA) && isNoun(nounB)) {
          int answer = sap.ancestor(hm.get(nounA), hm.get(nounB));
-         for (String s: hm.keySet()) {
-            if(hm.get(s) == answer){
-               ans.add(s);
-            }
-         }
+         // System.out.println("ANSWER:" + answer);
+         return synsetshm.get(answer);
+         // for (String s: hm.keySet()) {
+         //    if(hm.get(s) == answer){
+         //       ans.add(s);
+         //    }
+         // }
       }
-      Collections.sort(ans);
-      String ancestor = ","+ ans;
-      ancestor = ancestor.replace(",", "").replace("[", "").replace("]", "");
-      return ancestor;
+      // Collections.sort(ans);
+      // String ancestor = ","+ ans;
+      // ancestor = ancestor.replace(",", "").replace("[", "").replace("]", "");
+      return null;
    }
 
    // do unit testing of this class

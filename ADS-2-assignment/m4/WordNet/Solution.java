@@ -13,10 +13,16 @@ public class Solution {
             switch(option) {
                 case "Graph":
                     wn = new WordNet(hypernym, synset);
+                    if(wn.dc.hasCycle()) {
+                        System.out.println("Cycle detected");
+                    } else if(wn.cc.count() > 1){
+                        System.out.println("Multiple roots");
+                    } else {
                     // if(wn.multiple_root) {
                     //     System.out.println("Multiple roots");
                     // } else {
                         System.out.println(wn);
+                    }
                     // }
                 break;
                 case "Queries":

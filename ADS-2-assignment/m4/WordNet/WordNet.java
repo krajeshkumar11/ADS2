@@ -3,6 +3,8 @@ import java.io.File;
 import java.util.*;
 public class WordNet {
    HashMap<String, Integer> hm = null;
+   public DirectedCycle dc = null;
+   public CC cc = null;
    Digraph graph = null;
    SAP sap = null;
    // public boolean multiple_root = false;
@@ -39,6 +41,8 @@ public class WordNet {
             // check++;
          }
          sap = new SAP(graph);
+         dc = new DirectedCycle(graph);
+         cc = new CC(graph);
       } catch (Exception e) {
          e.printStackTrace();
       }

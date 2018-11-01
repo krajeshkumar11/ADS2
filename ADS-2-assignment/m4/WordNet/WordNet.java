@@ -5,6 +5,7 @@ public class WordNet {
    HashMap<String, Integer> hm = null;
    Digraph graph = null;
    SAP sap = null;
+   public boolean multiple_root = false;
    // constructor takes the name of the two input files
    public WordNet(String hypernyms, String synsets) {
       hm = new HashMap<String, Integer>();
@@ -25,12 +26,17 @@ public class WordNet {
          File file_graph = new File(hypernyms);
          Scanner sc_graph = new Scanner(file_graph);
          graph = new Digraph(count);
-
+         int check = 0;
          while(sc_graph.hasNext()) {
             String[] conn = sc_graph.nextLine().split(",");
+            if(Integer.parseInt(conn[0]) != check) {
+               multiple_root = true;
+               break;
+            }
             for (int i = 1; i < conn.length; i++) {
                graph.addEdge(Integer.parseInt(conn[0]), Integer.parseInt(conn[i]));
             }
+            check++;
          }
          sap = new SAP(graph);
       } catch (Exception e) {

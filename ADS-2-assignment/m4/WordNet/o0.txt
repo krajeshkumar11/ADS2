@@ -1,17 +1,1 @@
-distance = 11, ancestor = unit whole
-distance = 8, ancestor = being organism
-distance = 14, ancestor = entity
-distance = 13, ancestor = object physical_object
-distance = 2, ancestor = decennary decennium
-distance = 8, ancestor = substance
-distance = 16, ancestor = physical_entity
-distance = 2, ancestor = alphabetic_character letter_of_the_alphabet
-distance = 2, ancestor = alphabetic_character letter_of_the_alphabet
-distance = 12, ancestor = individual mortal person somebody someone
-distance = 15, ancestor = abstract_entity
-distance = 0, ancestor = 9-11 9/11 Sep_11 Sept._11 September_11
-distance = 2, ancestor = 
-distance = 13, ancestor = abstract_entity
-distance = 12, ancestor = abstract_entity
-distance = 0, ancestor = era geological_era
-distance = 8, ancestor = abstract_entity
+Multiple roots

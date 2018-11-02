@@ -24,14 +24,16 @@ public class WordNet {
             String[] nouns_list = stlist[1].split(" ");
             count += nouns_list.length;
             synsetshm.put(Integer.parseInt(stlist[0]), stlist[1]);
-            ArrayList<Integer> al = new ArrayList<Integer>();
             for(int i = 0; i < nouns_list.length; i++) {
-               if(!hm.containsKey(nouns_list[i])) {
-                  // al = hm.get(nouns_list[i]);
-
+               if(hm.containsKey(nouns_list[i])) {
+                  ArrayList<Integer> al = hm.get(nouns_list[i]);
+                  al.add(Integer.parseInt(stlist[0]));
+                  hm.put(nouns_list[i], al);
+               } else {
+                  ArrayList<Integer> al = new ArrayList<Integer>();
+                  al.add(Integer.parseInt(stlist[0]));
+                  hm.put(nouns_list[i], al);
                }
-               al.add(Integer.parseInt(stlist[0]));
-               hm.put(nouns_list[i], al);
             }
          }
          // Graph

@@ -15,7 +15,7 @@ public class Solution {
                     wn = new WordNet(hypernym, synset);
                     if(wn.dc.hasCycle()) {
                         System.out.println("Cycle detected");
-                    } else if(wn.cc.count() > 1){
+                    } else if(wn.graph.multipleRoot() > 1){
                         System.out.println("Multiple roots");
                     } else {
                     // if(wn.multiple_root) {

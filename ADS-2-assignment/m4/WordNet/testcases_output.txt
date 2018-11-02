@@ -204,22 +204,20 @@ Your Output:
 Multiple roots
 ----------------------------------------
 
-########## Testcase 11: Failed ##########
+########## Testcase 11: Passed ##########
 Expected Output: 
 IllegalArgumentException
 
 Your Output: 
-Exception in thread "main" java.lang.IllegalArgumentException: IllegalArgumentException
-	at Solution.main(Solution.java:29)
+IllegalArgumentException
 ----------------------------------------
 
-########## Testcase 12: Failed ##########
+########## Testcase 12: Passed ##########
 Expected Output: 
 IllegalArgumentException
 
 Your Output: 
-Exception in thread "main" java.lang.IllegalArgumentException: IllegalArgumentException
-	at Solution.main(Solution.java:29)
+IllegalArgumentException
 ----------------------------------------
 
 ########## Testcase 13: Failed ##########

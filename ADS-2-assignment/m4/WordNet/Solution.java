@@ -26,7 +26,7 @@ public class Solution {
                     while(sc.hasNext()) {
                         String[] qu = sc.nextLine().split(" ");
                         if(qu[0].equals("null") || qu[1].equals("null")) {
-                            throw new IllegalArgumentException("IllegalArgumentException");
+                            System.out.println("IllegalArgumentException");
                         } else {
                             System.out.print("distance = " + wn.distance(qu[0], qu[1]));
                             System.out.println(", ancestor = " + wn.sap(qu[0], qu[1]));

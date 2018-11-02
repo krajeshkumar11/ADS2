@@ -7,29 +7,29 @@ public class Solution {
         synset = "Files//" + synset;
         String hypernym = sc.nextLine();
         hypernym = "Files//" + hypernym;
-        WordNet wn = null;
+        WordNet wordnet = null;
         while(sc.hasNext()) {
             String option = sc.nextLine();
             switch(option) {
                 case "Graph":
-                    wn = new WordNet(hypernym, synset);
-                    if(wn.dc.hasCycle()) {
+                    wordnet = new WordNet(hypernym, synset);
+                    if(wordnet.dc.hasCycle()) {
                         System.out.println("Cycle detected");
-                    } else if(wn.graph.multipleRoot() > 1){
+                    } else if(wordnet.graph.multipleRoot() > 1){
                         System.out.println("Multiple roots");
                     } else {
-                        System.out.println(wn);
+                        System.out.println(wordnet);
                     }
                 break;
                 case "Queries":
-                    wn = new WordNet(hypernym, synset);
+                    wordnet = new WordNet(hypernym, synset);
                     while(sc.hasNext()) {
                         String[] qu = sc.nextLine().split(" ");
                         if(qu[0].equals("null") || qu[1].equals("null")) {
                             System.out.println("IllegalArgumentException");
                         } else {
-                            System.out.print("distance = " + wn.distance(qu[0], qu[1]));
-                            System.out.println(", ancestor = " + wn.sap(qu[0], qu[1]));
+                            System.out.print("distance = " + wordnet.distance(qu[0], qu[1]));
+                            System.out.println(", ancestor = " + wordnet.sap(qu[0], qu[1]));
                         }
                     }
                 break;

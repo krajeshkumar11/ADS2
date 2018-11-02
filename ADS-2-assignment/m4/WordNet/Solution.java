@@ -18,12 +18,8 @@ public class Solution {
                     } else if(wn.graph.multipleRoot() > 1){
                         System.out.println("Multiple roots");
                     } else {
-                    // if(wn.multiple_root) {
-                    //     System.out.println("Multiple roots");
-                    // } else {
                         System.out.println(wn);
                     }
-                    // }
                 break;
                 case "Queries":
                     wn = new WordNet(hypernym, synset);

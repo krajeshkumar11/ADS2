@@ -12,6 +12,7 @@ public class SAP {
    // length of shortest ancestral path between v and w; -1 if no such path
    public int length(int v, int w){
       distance = Integer.MAX_VALUE;
+      answer = -1;
       BreadthFirstPaths v1 = new BreadthFirstPaths(digraph, v);
       BreadthFirstPaths w1 = new BreadthFirstPaths(digraph, w);
       for (int i = 0; i < this.digraph.V(); i++) {
@@ -28,20 +29,29 @@ public class SAP {
 
    // a common ancestor of v and w that participates in a shortest ancestral path; -1 if no such path
    public int ancestor(int v, int w){
-      length(v, w);
-      return this.answer;
+      distance = Integer.MAX_VALUE;
+      answer = -1;
+      BreadthFirstPaths v1 = new BreadthFirstPaths(digraph, v);
+      BreadthFirstPaths w1 = new BreadthFirstPaths(digraph, w);
+      for (int i = 0; i < this.digraph.V(); i++) {
+         if(v1.hasPathTo(i) && w1.hasPathTo(i)) {
+            int temp = v1.distTo(i) + w1.distTo(i);
+            if(distance > temp) {
+               distance = temp;
+               answer = i;
+            }
+         }
+      }
+      return answer;
    }
 
    // length of shortest ancestral path between any vertex in v and any vertex in w; -1 if no such path
    public int length(Iterable<Integer> v, Iterable<Integer> w) {
-      Iterator v_iterator = v.iterator();
-      Iterator w_iterator = null;
-      while (v_iterator.hasNext()) {
-         int v_1 = (Integer)v_iterator.next();
-         w_iterator = w.iterator();
-         while (w_iterator.hasNext()) {
-            int w_1 = (Integer)w_iterator.next();
-            distance = length(v_1, w_1);
+      distance = Integer.MAX_VALUE;
+      for(Integer v1 :v){
+         for(Integer w1 : w){
+            distance = length(v1,w1);
+                    //System.out.println("DDDD"+distance);
          }
       }
       return distance;
@@ -49,14 +59,10 @@ public class SAP {
 
    // a common ancestor that participates in shortest ancestral path; -1 if no such path
    public int ancestor(Iterable<Integer> v, Iterable<Integer> w) {
-      Iterator v_iterator = v.iterator();
-      Iterator w_iterator = null;
-      while (v_iterator.hasNext()) {
-         int v_1 = (Integer)v_iterator.next();
-         w_iterator = w.iterator();
-         while (w_iterator.hasNext()) {
-            int w_1 = (Integer)w_iterator.next();
-            answer = ancestor(v_1, w_1);
+      this.answer = -1;
+      for(Integer v1 :v){
+         for(Integer w1 : w){
+            answer = ancestor(v1,w1);
          }
       }
       return answer;

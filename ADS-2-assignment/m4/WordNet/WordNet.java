@@ -13,16 +13,16 @@ public class WordNet {
    // constructor takes the name of the two input files
    public WordNet(String hypernyms, String synsets) {
       // hm = new HashMap<String, ArrayList<Integer>>();
-      hm = new HashMap<String, ArrayList<Integer>>();
-      synsetshm = new HashMap<Integer, String>();
       try {
+         hm = new HashMap<String, ArrayList<Integer>>();
+         synsetshm = new HashMap<Integer, String>();
          File file = new File(synsets);
          Scanner sc = new Scanner(file);
          int count = 0;
          while(sc.hasNext()) {
             String[] stlist= sc.nextLine().split(",");
             String[] nouns_list = stlist[1].split(" ");
-            count += nouns_list.length;
+            // count += nouns_list.length;
             synsetshm.put(Integer.parseInt(stlist[0]), stlist[1]);
             for(int i = 0; i < nouns_list.length; i++) {
                if(hm.containsKey(nouns_list[i])) {
@@ -35,6 +35,7 @@ public class WordNet {
                   hm.put(nouns_list[i], al);
                }
             }
+            count++;
          }
          // Graph
          File file_graph = new File(hypernyms);
@@ -46,8 +47,8 @@ public class WordNet {
                graph.addEdge(Integer.parseInt(conn[0]), Integer.parseInt(conn[i]));
             }
          }
-         sap = new SAP(graph);
-         dc = new DirectedCycle(graph);
+         dc = new DirectedCycle(graph.reverse());
+         sap = new SAP(graph.reverse());
       } catch (Exception e) {
          e.printStackTrace();
       }
@@ -79,7 +80,9 @@ public class WordNet {
    // in a shortest ancestral path (defined below)
    public String sap(String nounA, String nounB){
       if(isNoun(nounA) && isNoun(nounB)) {
+         sap = new SAP(graph);
          int answer = sap.ancestor(hm.get(nounA), hm.get(nounB));
+         // System.out.println("\n" + answer + "\n");
          return synsetshm.get(answer);
       }
       return null;

@@ -47,8 +47,8 @@ public class WordNet {
                graph.addEdge(Integer.parseInt(conn[0]), Integer.parseInt(conn[i]));
             }
          }
-         dc = new DirectedCycle(graph.reverse());
-         sap = new SAP(graph.reverse());
+         dc = new DirectedCycle(graph);
+         sap = new SAP(graph);
       } catch (Exception e) {
          e.printStackTrace();
       }

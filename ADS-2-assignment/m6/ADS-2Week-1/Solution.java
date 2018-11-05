@@ -1,31 +1,57 @@
-import java.util.Scanner;
+import java.util.*;
 class PageRank {
 	Double[] PR;
-	Digraph G = null;
-	PageRank(Digraph G) {
-		G = G;
-		PR = new Double[G.V()];
-		for (int i = 0; i < PR.length; i++) {
-		    PR[i] = 1/4d;
+	Double[] tempPR;
+	Digraph graph = null;
+	Digraph reverse = null;
+	PageRank(Digraph g){
+		//System.out.println(5.0/8.0);
+		graph = g;
+
+		PR = new Double[g.V()];
+		for(int j=0; j<g.V();j++){
+			if(graph.outdegree(j) == 0){
+				for(int k = 0; k < g.V(); k++){
+					if(k != j){
+						graph.addEdge(j,k);
+					}
+				}
+			}
+		}
+		reverse = graph.reverse();
+		for(int i =0;i< g.V();i++){
+			PR[i]= (double)1.0/g.V();
 		}
 
-		for (int j = 1; j < 1000; j++) {
-		    for (int i = 0; i < PR.length; i++) {
-				Double total_rank = 0d;
-				Iterable<Integer> adjecents = G.adj(i);
-				for (Integer in : adjecents) {
-
-					total_rank += getPR(in) / G.outdegree(in);
-					// System.out.print(in + " " + PR[in] + " " + G.outdegree(in) + ", ");
-				}
-				PR[i] = total_rank;
-				// System.out.println(j + " HI");
+		tempPR= new Double[g.V()];
+		int iterations =1000;
+		while(iterations>0){
+			for(int j=0;j<g.V();j++){
+				tempPR[j] = PR[j];
 			}
+			for(int i =0;i< g.V();i++){
+				PR[i]= getPR(i);
+			}
+			if(Arrays.equals(tempPR, PR)) {
+				break;
+			}
+			iterations--;
 		}
 	}
 
-	public double getPR(int v) {
-		return PR[v];
+	public double getPR(int v){
+		if(graph.indegree(v) == 0){
+			return 0.0;
+		}
+		double sum=0.0;
+			int indegreeCount  = graph.indegree(v);
+			for(int adjs :  reverse.adj(v)){
+					sum+=(tempPR[adjs]/graph.outdegree(adjs));
+
+			}
+
+		return sum;
+
 	}
 
 	public String toString() {

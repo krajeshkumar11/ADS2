@@ -63,6 +63,7 @@ public class SeamCarver {
 
 	// sequence of indices for horizontal seam
 	public int[] findHorizontalSeam() {
+
 		return new int[5];
     }
 

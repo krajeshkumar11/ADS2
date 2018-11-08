@@ -1,6 +1,5 @@
 import java.awt.Color;
-import java.util.Arrays;
-import java.lang.Math;
+
 public class SeamCarver {
 	public int BORDER_ENERGY = 1000;
     public int width;
@@ -35,12 +34,12 @@ public class SeamCarver {
             return BORDER_ENERGY;
         }
 
-        int deltaX = gradientSquare(x + 1, y, x - 1, y);
-        int deltaY = gradientSquare(x, y + 1, x, y - 1);
+        int deltaX = calculateSquare(x + 1, y, x - 1, y);
+        int deltaY = calculateSquare(x, y + 1, x, y - 1);
         return Math.sqrt(deltaX + deltaY);
 	}
 
-	public int gradientSquare(int x1, int y1, int x2, int y2) {
+	public int calculateSquare(int x1, int y1, int x2, int y2) {
         Color color1 = picture.get(x1, y1);
         Color color2 = picture.get(x2, y2);
         int red = color1.getRed() - color2.getRed();
@@ -49,45 +48,20 @@ public class SeamCarver {
         return red * red + green * green + blue * blue;
     }
 
+    public double[][] transpose(double[][] matrix) {
+    	int m = matrix.length;
+    	int n = matrix[0].length;
+
+      	double transpose[][] = new double[n][m];
+      	for (int i = 0; i < m; i++)
+        	for (int j = 0; j < n; j++)
+            	transpose[j][i] = matrix[i][j];
+        return transpose;
+    }
+
 	// sequence of indices for horizontal seam
 	public int[] findHorizontalSeam() {
-        double[][] sum = new double[2][height];
-        int[][] parent = new int[width][height];
-        for (int y = 0; y < height; ++y) {
-            sum[0][y] = BORDER_ENERGY;
-            parent[0][y] = y;
-        }
-
-        for (int x = 1; x < width; ++x) {
-            for (int y = 0; y < height; ++y) {
-                double temp = sum[(x - 1) % 2][y];
-                parent[x][y] = y;
-                if (y > 0 && sum[(x - 1) % 2][y - 1] < temp) {
-                    temp = sum[(x - 1) % 2][y - 1];
-                    parent[x][y] = y - 1;
-                }
-
-                if (y < height - 1 && sum[(x - 1) % 2][y + 1] < temp) {
-                    temp = sum[(x - 1) % 2][y + 1];
-                    parent[x][y] = y + 1;
-                }
-                sum[x % 2][y] = energy(x, y) + temp;
-            }
-        }
-
-        int index = 0;
-        for (int y = 1; y < height; ++y) {
-            if (sum[(width - 1) % 2][y] < sum[(width - 1) % 2][index]) {
-                index = y;
-            }
-        }
-        int[] seam = new int[width];
-        seam[width - 1] = index;
-        for (int x = width - 2; x >= 0; --x) {
-            seam[x] = parent[x + 1][index];
-            index = parent[x + 1][index];
-        }
-        return seam;
+		return new int[5];
     }
 
 	// sequence of indices for vertical seam

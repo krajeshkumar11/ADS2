@@ -91,7 +91,7 @@ public class SeamCarver {
                 sum[x][y] = energy(x, y) + temp;
             }
         }
-        sum = transpose(sum);
+        // sum = transpose(sum);
         // for (int i = 0; i < sum.length; i++) {
         // 	for (int j = 0; j < sum[0].length; j++) {
         // 		System.out.print(Math.round(sum[i][j] * 100.0) / 100.0 + " ");
@@ -99,10 +99,9 @@ public class SeamCarver {
         // 	System.out.println();
         // }
         int index = 0;
-        // System.out.println(height);
-        for (int x = 1; x < height; ++x) {
-            if (sum[height - 1][x] < sum[height - 1][index]) {
-                index = x;
+        for (int x = 1; x < width; ++x) {
+            if (sum[x][height - 1] < sum[index][height - 1]) {
+            	index = x;
             }
         }
         int[] seam = new int[height];

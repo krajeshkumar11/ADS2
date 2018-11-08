@@ -63,7 +63,7 @@ public class SeamCarver {
 
 	// sequence of indices for horizontal seam
 	public int[] findHorizontalSeam() {
-		double[][] sum = new double[2][height];
+		double[][] sum = new double[width][height];
         int[][] parent = new int[width][height];
         for (int y = 0; y < height; ++y) {
             sum[0][y] = BORDER_ENERGY;
@@ -72,24 +72,24 @@ public class SeamCarver {
 
         for (int x = 1; x < width; ++x) {
             for (int y = 0; y < height; ++y) {
-                double temp = sum[(x - 1) % 2][y];
+                double temp = sum[x - 1][y];
                 parent[x][y] = y;
-                if (y > 0 && sum[(x - 1) % 2][y - 1] < temp) {
-                    temp = sum[(x - 1) % 2][y - 1];
+                if (y > 0 && sum[x - 1][y - 1] < temp) {
+                    temp = sum[x - 1][y - 1];
                     parent[x][y] = y - 1;
                 }
 
-                if (y < height - 1 && sum[(x - 1) % 2][y + 1] < temp) {
-                    temp = sum[(x - 1) % 2][y + 1];
+                if (y < height - 1 && sum[x - 1][y + 1] < temp) {
+                    temp = sum[x - 1][y + 1];
                     parent[x][y] = y + 1;
                 }
-                sum[x % 2][y] = energy(x, y) + temp;
+                sum[x][y] = energy(x, y) + temp;
             }
         }
 
         int index = 0;
         for (int y = 1; y < height; ++y) {
-            if (sum[(width - 1) % 2][y] < sum[(width - 1) % 2][index]) {
+            if (sum[width - 1][y] < sum[width - 1][index]) {
                 index = y;
             }
         }

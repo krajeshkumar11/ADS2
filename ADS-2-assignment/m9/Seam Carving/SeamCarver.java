@@ -1,9 +1,11 @@
 import java.awt.Color;
+import java.util.Arrays;
+import java.lang.Math;
 public class SeamCarver {
-	public static final int BORDER_ENERGY = 1000;
+	public int BORDER_ENERGY = 1000;
     public int width;
     public int height;
-    public final Picture picture;
+    public Picture picture;
 	// create a seam carver object based on the given picture
 	public SeamCarver(Picture picture) {
 		if(picture == null) {
@@ -54,7 +56,57 @@ public class SeamCarver {
 
 	// sequence of indices for vertical seam
 	public int[] findVerticalSeam() {
-		return new int[0];
+		double[][] sum = new double[width][2];
+        int[][] parent = new int[width][height];
+        for (int x = 0; x < width; ++x) {
+            sum[x][0] = BORDER_ENERGY;
+            parent[x][0] = x;
+        }
+        // System.out.println();
+        // for (int i = 0; i < sum.length; i++) {
+        //     System.out.println(Arrays.toString(sum[i]));
+        // }
+        for (int y = 1; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+            	// System.out.println("1: " + Arrays.toString(sum[x]));
+                double temp = sum[x][(y - 1) % 2];
+                // System.out.println(x + " " + y + " " + (y - 1) % 2 + " " + temp);
+                parent[x][y] = x;
+                if (x > 0 && sum[x - 1][(y - 1) % 2] < temp) {
+                    temp = sum[x - 1][(y - 1) % 2];
+                    parent[x][y] = x - 1;
+                }
+
+                if (x < width - 1 && sum[x + 1][(y - 1) % 2] < temp) {
+                    temp = sum[x + 1][(y - 1) % 2];
+                    parent[x][y] = x + 1;
+                }
+                sum[x][y % 2] = energy(x, y) + temp;
+                // System.out.print(Math.round(sum[x][y % 2] * 100.0) / 100.0 + " ");
+            }
+            // System.out.println();
+        }
+        // for (int i = 0; i < parent.length; i++) {
+        //     System.out.println(Arrays.toString(parent[i]));
+        // }
+        // System.out.println();
+        // for (int i = 0; i < sum.length; i++) {
+        //     System.out.println(Arrays.toString(sum[i]));
+        // }
+        int index = 0;
+        for (int x = 1; x < width; ++x) {
+            if (sum[x][(height - 1) % 2] < sum[index][(height - 1) % 2]) {
+                index = x;
+            }
+        }
+        int[] seam = new int[height];
+        seam[height - 1] = index;
+        for (int y = height - 2; y >= 0; --y) {
+        	// System.out.println(index + " " + (y + 1));
+            seam[y] = parent[index][y + 1];
+            index = parent[index][y + 1];
+        }
+        return seam;
 	}
 
 	// remove horizontal seam from current picture

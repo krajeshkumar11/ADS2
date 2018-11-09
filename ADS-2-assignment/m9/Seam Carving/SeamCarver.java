@@ -73,6 +73,23 @@ public class SeamCarver {
         for (int x = 1; x < width; ++x) {
             for (int y = 0; y < height; ++y) {
                 double temp = sum[x - 1][y];
+                // parent[x][y] = y;
+                if (y > 0 && sum[x - 1][y - 1] < temp) {
+                    temp = sum[x - 1][y - 1];
+                    // parent[x][y] = y - 1;
+                }
+
+                if (y < height - 1 && sum[x - 1][y + 1] < temp) {
+                    temp = sum[x - 1][y + 1];
+                    // parent[x][y] = y + 1;
+                }
+                sum[x][y] = energy(x, y) + temp;
+            }
+        }
+
+        for (int x = 1; x < width; ++x) {
+            for (int y = 0; y < height; ++y) {
+                double temp = sum[x - 1][y];
                 parent[x][y] = y;
                 if (y > 0 && sum[x - 1][y - 1] < temp) {
                     temp = sum[x - 1][y - 1];
@@ -83,7 +100,6 @@ public class SeamCarver {
                     temp = sum[x - 1][y + 1];
                     parent[x][y] = y + 1;
                 }
-                sum[x][y] = energy(x, y) + temp;
             }
         }
 
@@ -110,7 +126,24 @@ public class SeamCarver {
             sum[x][0] = BORDER_ENERGY;
             parent[x][0] = x;
         }
+        // adding pixel energy with least adjucent pixel
+        for (int y = 1; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                double temp = sum[x][y - 1];
+                // parent[x][y] = x;
+                if (x > 0 && sum[x - 1][y - 1] < temp) {
+                    temp = sum[x - 1][y - 1];
+                    // parent[x][y] = x - 1;
+                }
 
+                if (x < width - 1 && sum[x + 1][y - 1] < temp) {
+                    temp = sum[x + 1][y - 1];
+                    // parent[x][y] = x + 1;
+                }
+                sum[x][y] = energy(x, y) + temp;
+            }
+        }
+        // finding pixcels with least adjucent pixel
         for (int y = 1; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 double temp = sum[x][y - 1];
@@ -124,16 +157,8 @@ public class SeamCarver {
                     temp = sum[x + 1][y - 1];
                     parent[x][y] = x + 1;
                 }
-                sum[x][y] = energy(x, y) + temp;
             }
         }
-        // sum = transpose(sum);
-        // for (int i = 0; i < sum.length; i++) {
-        // 	for (int j = 0; j < sum[0].length; j++) {
-        // 		System.out.print(Math.round(sum[i][j] * 100.0) / 100.0 + " ");
-        // 	}
-        // 	System.out.println();
-        // }
         int index = 0;
         for (int x = 1; x < width; ++x) {
             if (sum[x][height - 1] < sum[index][height - 1]) {

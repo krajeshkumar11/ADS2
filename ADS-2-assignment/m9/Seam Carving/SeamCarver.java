@@ -4,17 +4,17 @@ import java.awt.Color;
  * Class for seam carver.
  */
 public class SeamCarver {
-    private final int BORDER_ENERGY = 1000;
+    private static final int BORDER_ENERGY = 1000;
     private int width;
     private int height;
-    private Picture picture;
+    private final Picture picture;
     //
     // create a seam carver object based on the given picture
     //
     // @param      picture  The picture
     //
     public SeamCarver(Picture picture) {
-        if(picture == null) {
+        if (picture == null) {
             throw new IllegalArgumentException("picture is null");
         }
         this.width = picture.width();

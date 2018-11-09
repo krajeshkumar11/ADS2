@@ -176,6 +176,15 @@ public class SeamCarver {
 
 	// remove horizontal seam from current picture
 	public void removeHorizontalSeam(int[] seam) {
+
+        if (seam == null || seam.length != width) {
+            throw new IllegalArgumentException("Seam is illegal.");
+        }
+
+        if (height <= 1) {
+            throw new IllegalArgumentException("Height of the picture is less than or equal to 1");
+        }
+
         for (int x = 0; x < width; ++x) {
             for (int y = seam[x]; y < height - 1; ++y) {
                 picture.set(x, y, picture.get(x, y + 1));
@@ -187,6 +196,15 @@ public class SeamCarver {
 
 	// remove vertical seam from current picture
 	public void removeVerticalSeam(int[] seam) {
+
+        if (seam == null || seam.length != height) {
+            throw new IllegalArgumentException("Seam is illegal.");
+        }
+
+        if (width <= 1) {
+            throw new IllegalArgumentException("Width of the picture is less than or equal to 1");
+        }
+
         for (int y = 0; y < height; ++y) {
             for (int x = seam[y]; x < width - 1; ++x) {
                 picture.set(x, y, picture.get(x + 1, y));

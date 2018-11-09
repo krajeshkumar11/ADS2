@@ -65,12 +65,12 @@ public class SeamCarver {
             for (int col = 0; col < height; col++) {
                 double temp = sum[row - 1][col];
                 parent[row][col] = col;
-                if (col > 0 && sum[row][col - 1] < temp) {
-                    temp = sum[row][col -1];
+                if (col > 0 && sum[row - 1][col - 1] < temp) {
+                    temp = sum[row - 1][col -1];
                     parent[row][col] = col - 1;
                 }
-                if (col < height - 1 && sum[row][col + 1] < temp) {
-                    temp = sum[row][col + 1];
+                if (col < height - 1 && sum[row - 1][col + 1] < temp) {
+                    temp = sum[row - 1][col + 1];
                     parent[row][col] = col + 1;
                 }
                 sum[row][col] = energy(row, col) + temp;

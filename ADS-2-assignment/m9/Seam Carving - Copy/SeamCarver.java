@@ -82,9 +82,9 @@ public class SeamCarver {
                 index = col;
             }
         }
-        int[] seam = new int[height];
-        seam[height - 1] = index;
-        for (int row = height - 1; row >= 0 ; row++) {
+        int[] seam = new int[width];
+        seam[width - 1] = index;
+        for (int row = width - 2; row >= 0 ; row--) {
             seam[row] = parent[row + 1][index];
             index = parent[row + 1][index];;
         }

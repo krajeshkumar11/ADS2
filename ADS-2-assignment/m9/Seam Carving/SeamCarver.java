@@ -176,11 +176,23 @@ public class SeamCarver {
 
 	// remove horizontal seam from current picture
 	public void removeHorizontalSeam(int[] seam) {
+        for (int x = 0; x < width; ++x) {
+            for (int y = seam[x]; y < height - 1; ++y) {
+                picture.set(x, y, picture.get(x, y + 1));
+            }
+        }
 
+        --height;
 	}
 
 	// remove vertical seam from current picture
 	public void removeVerticalSeam(int[] seam) {
+        for (int y = 0; y < height; ++y) {
+            for (int x = seam[y]; x < width - 1; ++x) {
+                picture.set(x, y, picture.get(x + 1, y));
+            }
+        }
 
+        --width;
 	}
 }

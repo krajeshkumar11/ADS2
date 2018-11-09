@@ -43,18 +43,28 @@ public class SeamCarver {
         return red * red + green * green + blue * blue;
     }
 
-    // energy of pixel at column x and row y
-    public double energy(int x, int y) {
-        if(x == 0 || y == 0 || x == width - 1 || y == height - 1) {
+    // energy of pixel at column row and row y
+    public double energy(int row, int col) {
+        if(row == 0 || col == 0 || row == width - 1 || col == height - 1) {
             return BORDER_ENERGY;
         }
-        double eX = calculateenergy(x - 1, y, x + 1, y);
-        double eY = calculateenergy(x, y - 1, x, y + 1);
+        double eX = calculateenergy(row - 1, col, row + 1, col);
+        double eY = calculateenergy(row, col - 1, row, col + 1);
         return Math.sqrt(eX + eY);
     }
 
     // sequence of indices for horizontal seam
     public int[] findHorizontalSeam() {
+        double[][] sum = new double[width][height];
+        for (int col = 0; col < height; col++) {
+            sum[0][col] = BORDER_ENERGY;
+        }
+        for (int row = 1; row < width; row++) {
+            for (int col = 0; col < height; col++) {
+                double temp = sum[row - 1][col];
+
+            }
+        }
         return new int[0];
     }
 
@@ -62,40 +72,40 @@ public class SeamCarver {
     public int[] findVerticalSeam() {
         double[][] sum = new double[width][height];
         int[][] path = new int[width][height];
-        for (int x = 0; x < width; x++) {
-            sum[x][0] = BORDER_ENERGY;
-            path[x][0] = x;
-            // System.out.print(sum[x][0] + " ");
+        for (int row = 0; row < width; row++) {
+            sum[row][0] = BORDER_ENERGY;
+            path[row][0] = row;
+            // System.out.print(sum[row][0] + " ");
         }
         // System.out.println();
-        for (int y = 1; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                double temp = sum[x][y - 1];
-                path[x][y] = x;
-                if (x > 0 && sum[x - 1][y - 1] < temp) {
-                    temp = sum[x - 1][y - 1];
-                    path[x][y] = x - 1;
+        for (int col = 1; col < height; col++) {
+            for (int row = 0; row < width; row++) {
+                double temp = sum[row][col - 1];
+                path[row][col] = row;
+                if (row > 0 && sum[row - 1][col - 1] < temp) {
+                    temp = sum[row - 1][col - 1];
+                    path[row][col] = row - 1;
                 }
-                if (x < width - 1 && sum[x + 1][y - 1] < temp) {
-                    temp = sum[x + 1][y - 1];
-                    path[x][y] = x + 1;
+                if (row < width - 1 && sum[row + 1][col - 1] < temp) {
+                    temp = sum[row + 1][col - 1];
+                    path[row][col] = row + 1;
                 }
-                sum[x][y] = energy(x, y) + temp;
-                // System.out.print(Math.round(sum[x][y] * 100.0) / 100.0 + " ");
+                sum[row][col] = energy(row, col) + temp;
+                // System.out.print(Math.round(sum[row][col] * 100.0) / 100.0 + " ");
             }
             // System.out.println();
         }
         int index = 0;
-        for (int x = 1; x < width; x++) {
-            if (sum[x][height - 1] < sum[index][height - 1]) {
-                index = x;
+        for (int row = 1; row < width; row++) {
+            if (sum[row][height - 1] < sum[index][height - 1]) {
+                index = row;
             }
         }
         int[] seam = new int[height];
         seam[height - 1] = index;
-        for (int y = height - 2; y >= 0 ; y--) {
-            seam[y] = path[index][y + 1];
-            index = path[index][y + 1];
+        for (int col = height - 2; col >= 0 ; col--) {
+            seam[col] = path[index][col + 1];
+            index = path[index][col + 1];
         }
         return seam;
     }

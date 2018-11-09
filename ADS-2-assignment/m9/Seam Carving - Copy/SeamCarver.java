@@ -60,7 +60,44 @@ public class SeamCarver {
 
     // sequence of indices for vertical seam
     public int[] findVerticalSeam() {
-        return new int[0];
+        double[][] sum = new double[width][height];
+        int[][] path = new int[width][height];
+        for (int x = 0; x < width; x++) {
+            sum[x][0] = BORDER_ENERGY;
+            path[x][0] = x;
+            // System.out.print(sum[x][0] + " ");
+        }
+        // System.out.println();
+        for (int y = 1; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                double temp = sum[x][y - 1];
+                path[x][y] = x;
+                if (x > 0 && sum[x - 1][y - 1] < temp) {
+                    temp = sum[x - 1][y - 1];
+                    path[x][y] = x - 1;
+                }
+                if (x < width - 1 && sum[x + 1][y - 1] < temp) {
+                    temp = sum[x + 1][y - 1];
+                    path[x][y] = x + 1;
+                }
+                sum[x][y] = energy(x, y) + temp;
+                // System.out.print(Math.round(sum[x][y] * 100.0) / 100.0 + " ");
+            }
+            // System.out.println();
+        }
+        int index = 0;
+        for (int x = 1; x < width; x++) {
+            if (sum[x][height - 1] < sum[index][height - 1]) {
+                index = x;
+            }
+        }
+        int[] seam = new int[height];
+        seam[height - 1] = index;
+        for (int y = height - 2; y >= 0 ; y--) {
+            seam[y] = path[index][y + 1];
+            index = path[index][y + 1];
+        }
+        return seam;
     }
 
     // remove horizontal seam from current picture

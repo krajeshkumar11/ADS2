@@ -1,47 +1,81 @@
 import java.awt.Color;
-import java.util.Arrays;
-import java.lang.Math;
 
+/**
+ * Class for seam carver.
+ */
 public class SeamCarver {
-	public int BORDER_ENERGY = 1000;
-    public int width;
-    public int height;
-    public Picture picture;
-	// create a seam carver object based on the given picture
-	public SeamCarver(Picture picture) {
-		if(picture == null) {
-			throw new IllegalArgumentException("picture is null");
-		}
-		this.width = picture.width();
+    private final int BORDER_ENERGY = 1000;
+    private int width;
+    private int height;
+    private Picture picture;
+    //
+    // create a seam carver object based on the given picture
+    //
+    // @param      picture  The picture
+    //
+    public SeamCarver(Picture picture) {
+        if(picture == null) {
+            throw new IllegalArgumentException("picture is null");
+        }
+        this.width = picture.width();
         this.height = picture.height();
         this.picture = picture;
-	}
-	// current picture
-	public Picture picture() {
-		return picture;
-	}
-	// width of current picture
-	public int width() {
-		return width;
-	}
+    }
+    //
+    // current picture
+    //
+    // @return     { description_of_the_return_value }
+    //
+    public Picture picture() {
+        return picture;
+    }
+    //
+    // width of current picture
+    //
+    // @return     { description_of_the_return_value }
+    //
+    public int width() {
+        return width;
+    }
 
-	// height of current picture
-	public int height() {
-		return height;
-	}
+    //
+    // height of current picture
+    //
+    // @return     { description_of_the_return_value }
+    //
+    public int height() {
+        return height;
+    }
 
-	// energy of pixel at column x and row y
-	public double energy(int x, int y) {
-		if (x == 0 || x == width - 1 || y == 0 || y == height - 1) {
+    //
+    // energy of pixel at column x and row y
+    //
+    // @param      x     { parameter_description }
+    // @param      y     { parameter_description }
+    //
+    // @return     { description_of_the_return_value }
+    //
+    public double energy(int x, int y) {
+        if (x == 0 || x == width - 1 || y == 0 || y == height - 1) {
             return BORDER_ENERGY;
         }
 
         int deltaX = calculateSquare(x + 1, y, x - 1, y);
         int deltaY = calculateSquare(x, y + 1, x, y - 1);
         return Math.sqrt(deltaX + deltaY);
-	}
+    }
 
-	public int calculateSquare(int x1, int y1, int x2, int y2) {
+    /**
+     * Calculates the square.
+     *
+     * @param      x1    The x 1
+     * @param      y1    The y 1
+     * @param      x2    The x 2
+     * @param      y2    The y 2
+     *
+     * @return     The square.
+     */
+    private int calculateSquare(int x1, int y1, int x2, int y2) {
         Color color1 = picture.get(x1, y1);
         Color color2 = picture.get(x2, y2);
         int red = color1.getRed() - color2.getRed();
@@ -50,20 +84,13 @@ public class SeamCarver {
         return red * red + green * green + blue * blue;
     }
 
-    public double[][] transpose(double[][] matrix) {
-    	int m = matrix.length;
-    	int n = matrix[0].length;
-
-      	double transpose[][] = new double[n][m];
-      	for (int i = 0; i < m; i++)
-        	for (int j = 0; j < n; j++)
-            	transpose[j][i] = matrix[i][j];
-        return transpose;
-    }
-
-	// sequence of indices for horizontal seam
-	public int[] findHorizontalSeam() {
-		double[][] sum = new double[width][height];
+    //
+    // sequence of indices for horizontal seam
+    //
+    // @return     { description_of_the_return_value }
+    //
+    public int[] findHorizontalSeam() {
+        double[][] sum = new double[width][height];
         int[][] parent = new int[width][height];
         for (int y = 0; y < height; ++y) {
             sum[0][y] = BORDER_ENERGY;
@@ -118,9 +145,13 @@ public class SeamCarver {
         return seam;
     }
 
-	// sequence of indices for vertical seam
-	public int[] findVerticalSeam() {
-		double[][] sum = new double[width][height];
+    //
+    // sequence of indices for vertical seam
+    //
+    // @return     { description_of_the_return_value }
+    //
+    public int[] findVerticalSeam() {
+        double[][] sum = new double[width][height];
         int[][] parent = new int[width][height];
         for (int x = 0; x < width; ++x) {
             sum[x][0] = BORDER_ENERGY;
@@ -162,7 +193,7 @@ public class SeamCarver {
         int index = 0;
         for (int x = 1; x < width; ++x) {
             if (sum[x][height - 1] < sum[index][height - 1]) {
-            	index = x;
+                index = x;
             }
         }
         int[] seam = new int[height];
@@ -172,10 +203,14 @@ public class SeamCarver {
             index = parent[index][y + 1];
         }
         return seam;
-	}
+    }
 
-	// remove horizontal seam from current picture
-	public void removeHorizontalSeam(int[] seam) {
+    //
+    // remove horizontal seam from current picture
+    //
+    // @param      seam  The seam
+    //
+    public void removeHorizontalSeam(int[] seam) {
 
         if (seam == null || seam.length != width) {
             throw new IllegalArgumentException("Seam is illegal.");
@@ -192,10 +227,14 @@ public class SeamCarver {
         }
 
         --height;
-	}
+    }
 
-	// remove vertical seam from current picture
-	public void removeVerticalSeam(int[] seam) {
+    //
+    // remove vertical seam from current picture
+    //
+    // @param      seam  The seam
+    //
+    public void removeVerticalSeam(int[] seam) {
 
         if (seam == null || seam.length != height) {
             throw new IllegalArgumentException("Seam is illegal.");
@@ -212,5 +251,5 @@ public class SeamCarver {
         }
 
         --width;
-	}
+    }
 }

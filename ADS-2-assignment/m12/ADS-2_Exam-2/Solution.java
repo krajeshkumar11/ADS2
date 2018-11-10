@@ -35,15 +35,12 @@ public class Solution {
 			int S = Integer.parseInt(input[0]);
 			int D = Integer.parseInt(input[1]);
 			DijkstraSP DSP = new DijkstraSP(EWDG, S);
-			// System.out.println(EWDG);
-			// AcyclicSP ASP = new AcyclicSP(EWDG, S);
 			Iterable<DirectedEdge> path = DSP.pathTo(D);
 			if (path == null) {
 				System.out.println("No Path Found.");
 			} else {
 				double sum = 0;
 				for (DirectedEdge dEdge: path) {
-					// System.out.print(dEdge + " ");
 					sum = sum + dEdge.weight();
 				}
 				System.out.println(sum);
@@ -62,8 +59,6 @@ public class Solution {
 			D = Integer.parseInt(input[2]);
 			DSP = new DijkstraSP(EWDG, S);
 			DijkstraSP DSP1 = new DijkstraSP(EWDG, M);
-			// System.out.println(EWDG);
-			// AcyclicSP ASP = new AcyclicSP(EWDG, S);
 			path = DSP.pathTo(M);
 			Iterable<DirectedEdge>  path1 = DSP1.pathTo(D);
 
@@ -82,7 +77,6 @@ public class Solution {
 					sum = sum + dEdge.weight();
 				}
 				for (DirectedEdge dEdge: path1) {
-					// System.out.print(dEdge + " ");
 					st = st + " " +dEdge.from();
 					sum = sum + dEdge.weight();
 				}

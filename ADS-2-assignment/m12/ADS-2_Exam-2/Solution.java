@@ -9,16 +9,16 @@ public class Solution {
 		Scanner sc = new Scanner(System.in);
 		int V = Integer.parseInt(sc.nextLine());
 		int E = Integer.parseInt(sc.nextLine());
-		EdgeWeightedGraph EWG = new EdgeWeightedGraph(V);
+		EdgeWeightedDigraph EWDG = new EdgeWeightedDigraph(V);
 		for (int i = 0; i < E; i++) {
 		    String[] input = sc.nextLine().split(" ");
-		    Edge edge = new Edge(Integer.parseInt(input[0]), Integer.parseInt(input[1]), Double.parseDouble(input[2]));
-		    EWG.addEdge(edge);
+		    DirectedEdge edge = new DirectedEdge(Integer.parseInt(input[0]), Integer.parseInt(input[1]), Double.parseDouble(input[2]));
+		    EWDG.addEdge(edge);
 		}
 		String caseToGo = sc.nextLine();
 		switch (caseToGo) {
 		case "Graph":
-			System.out.println(EWG);
+			System.out.println(EWDG);
 			break;
 
 		case "DirectedPaths":
@@ -26,6 +26,11 @@ public class Solution {
 			// First is the source and second is the destination.
 			// If the path exists print the distance between them.
 			// Other wise print "No Path Found."
+			String[] input = sc.nextLine().split(" ");
+			int S = Integer.parseInt(input[0]);
+			int D = Integer.parseInt(input[1]);
+			DijkstraSP DSP = new DijkstraSP(EWDG, S);
+			System.out.println(DSP.hasPathTo(D));
 			break;
 
 		case "ViaPaths":

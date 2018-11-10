@@ -51,6 +51,36 @@ public class Solution {
 			// third is the destination.
 			// If the path exists print the distance between them.
 			// Other wise print "No Path Found."
+			input = sc.nextLine().split(" ");
+			S = Integer.parseInt(input[0]);
+			int M = Integer.parseInt(input[1]);
+			D = Integer.parseInt(input[2]);
+			DSP = new DijkstraSP(EWDG, S);
+			// System.out.println(EWDG);
+			// AcyclicSP ASP = new AcyclicSP(EWDG, S);
+			path = DSP.pathTo(D);
+			if (path == null) {
+				System.out.println("No Path Found.");
+			} else {
+				boolean flag = false;
+				for (DirectedEdge dEdge: path) {
+					if(dEdge.from() == M || dEdge.to() == M) {
+						flag = true;
+					}
+				}
+				if (!flag) {
+					System.out.println("No Path Found.");
+				} else {
+					double sum = 0;
+					String st = "";
+					for (DirectedEdge dEdge: path) {
+						sum += dEdge.weight();
+						st += dEdge.from();
+					}
+					System.out.println(sum);
+					System.out.println(st);
+				}
+			}
 			break;
 
 		default:

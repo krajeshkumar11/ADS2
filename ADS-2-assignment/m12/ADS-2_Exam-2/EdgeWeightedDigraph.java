@@ -163,6 +163,7 @@ public class EdgeWeightedDigraph {
         adj[v].add(e);
         adj[w].add(e);
         indegree[w]++;
+        indegree[v]++;
         E++;
     }
 

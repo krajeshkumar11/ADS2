@@ -30,7 +30,19 @@ public class Solution {
 			int S = Integer.parseInt(input[0]);
 			int D = Integer.parseInt(input[1]);
 			DijkstraSP DSP = new DijkstraSP(EWDG, S);
-			System.out.println(DSP.hasPathTo(D));
+			// System.out.println(EWDG);
+			// AcyclicSP ASP = new AcyclicSP(EWDG, S);
+			Iterable<DirectedEdge> path = DSP.pathTo(D);
+			if (path == null) {
+				System.out.println("No Path Found.");
+			} else {
+				double sum = 0;
+				for (DirectedEdge dEdge: path) {
+					// System.out.print(dEdge + " ");
+					sum = sum + dEdge.weight();
+				}
+				System.out.println(sum);
+			}
 			break;
 
 		case "ViaPaths":

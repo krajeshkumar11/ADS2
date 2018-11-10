@@ -64,35 +64,36 @@ public class Solution {
 			DijkstraSP DSP1 = new DijkstraSP(EWDG, M);
 			// System.out.println(EWDG);
 			// AcyclicSP ASP = new AcyclicSP(EWDG, S);
-			path = DSP.pathTo(D);
+			path = DSP.pathTo(M);
+			Iterable<DirectedEdge>  path1 = DSP1.pathTo(D);
+
 			if (!DSP.hasPathTo(M) || !DSP1.hasPathTo(D)) {
 				System.out.println("No Path Found.");
 			} else {
-				System.out.println("HI");
-				boolean flag = false;
+				String st = "";
+				double sum = 0;
 				for (DirectedEdge dEdge: path) {
-					if(dEdge.from() == M || dEdge.to() == M) {
-						flag = true;
+					// System.out.print(dEdge + " ");
+					if (st.equals("")) {
+						st =  "" + dEdge.from();
+					} else {
+						st = st + " " + dEdge.from();
 					}
+					sum = sum + dEdge.weight();
 				}
-				if (!flag) {
-					System.out.println("No Path Found.");
-				} else {
-					double sum = 0;
-					String st = "";
-					for (DirectedEdge dEdge: path) {
-						sum += dEdge.weight();
-						st += dEdge.from();
-					}
-					System.out.println(sum);
-					System.out.println(st);
+				for (DirectedEdge dEdge: path1) {
+					// System.out.print(dEdge + " ");
+					st = st + " " +dEdge.from();
+					sum = sum + dEdge.weight();
 				}
+				st = st + " " + D;
+				System.out.println(sum);
+				System.out.println(st);
 			}
 			break;
 
 		default:
 			break;
 		}
-
 	}
 }

@@ -10,15 +10,20 @@ public class Solution {
 		int V = Integer.parseInt(sc.nextLine());
 		int E = Integer.parseInt(sc.nextLine());
 		EdgeWeightedDigraph EWDG = new EdgeWeightedDigraph(V);
+		EdgeWeightedGraph EWG = new EdgeWeightedGraph(V);
 		for (int i = 0; i < E; i++) {
 		    String[] input = sc.nextLine().split(" ");
-		    DirectedEdge edge = new DirectedEdge(Integer.parseInt(input[0]), Integer.parseInt(input[1]), Double.parseDouble(input[2]));
-		    EWDG.addEdge(edge);
+		    Edge edge = new Edge(Integer.parseInt(input[0]), Integer.parseInt(input[1]), Double.parseDouble(input[2]));
+		    EWG.addEdge(edge);
+		    DirectedEdge dDdge = new DirectedEdge(Integer.parseInt(input[0]), Integer.parseInt(input[1]), Double.parseDouble(input[2]));
+		    EWDG.addEdge(dDdge);
+		    dDdge = new DirectedEdge(Integer.parseInt(input[1]), Integer.parseInt(input[0]), Double.parseDouble(input[2]));
+		    EWDG.addEdge(dDdge);
 		}
 		String caseToGo = sc.nextLine();
 		switch (caseToGo) {
 		case "Graph":
-			System.out.println(EWDG);
+			System.out.println(EWG);
 			break;
 
 		case "DirectedPaths":
@@ -56,12 +61,14 @@ public class Solution {
 			int M = Integer.parseInt(input[1]);
 			D = Integer.parseInt(input[2]);
 			DSP = new DijkstraSP(EWDG, S);
+			DijkstraSP DSP1 = new DijkstraSP(EWDG, M);
 			// System.out.println(EWDG);
 			// AcyclicSP ASP = new AcyclicSP(EWDG, S);
 			path = DSP.pathTo(D);
-			if (path == null) {
+			if (!DSP.hasPathTo(M) || !DSP1.hasPathTo(D)) {
 				System.out.println("No Path Found.");
 			} else {
+				System.out.println("HI");
 				boolean flag = false;
 				for (DirectedEdge dEdge: path) {
 					if(dEdge.from() == M || dEdge.to() == M) {

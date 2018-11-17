@@ -145,13 +145,7 @@ class T9 {
 		for (int i = al.size() - 1; i >= 0; i--) {
 			for (String word : words) {
 				Object freq = tst.get(word);
-				// int count = 0;
-				// for (String te : freq) {
-				// 	count++;
-				// }
-				// System.out.println(count + " " + word);
 				if(al.get(i) == (Integer) freq) {
-					// System.out.println(word + " " + (Integer) freq);
 					alS.add(word);
 				}
 			}

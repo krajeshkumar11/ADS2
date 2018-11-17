@@ -228,7 +228,7 @@ Your Output:
 873283
 Exception in thread "main" java.lang.NullPointerException
 	at T9.getSuggestions(Solution.java:139)
-	at T9.t9(Solution.java:170)
+	at T9.t9(Solution.java:164)
 	at Solution.main(Solution.java:73)
 ----------------------------------------
 
